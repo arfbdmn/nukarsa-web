@@ -62,7 +62,7 @@ export default function BookingPage() {
 
     setLoading(false);
     if (docError) alert("Error Doc: " + docError.message);
-    else window.location.href = '/thanks';
+    else window.location.href = "/thanks";
   };
 
   return (
@@ -144,3 +144,4 @@ export default function BookingPage() {
     </div>
   );
 }
+// Force redeploy N-IMS
