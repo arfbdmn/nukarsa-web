@@ -3,12 +3,11 @@
 import Image from "next/image";
 import OfficeGallery from "@/components/OfficeGallery";
 import { motion } from "framer-motion";
+import Link from "next/link";
 
 export default function LandingPage() {
   const teamMembers = [
-    { name: "Gerry Affero Wibawa, S.H", 
-      role: "Director", 
-      image: "/Gerry.png" },
+    { name: "Gerry Affero Wibawa, S.H", role: "Director", image: "/Gerry.png" },
 
     {
       name: "Ervina Syahputri",
@@ -16,28 +15,28 @@ export default function LandingPage() {
       image: "/Ervina.png",
     },
 
-    { name: "Ain Tania", 
-      role: "Marketing Communication", 
-      image: "/Ain.png" },
+    { name: "Ain Tania", role: "Marketing Communication", image: "/Ain.png" },
   ];
 
   const allServices = [
     {
       category: "Visa Services",
-
       items: [
         {
           name: "Visa VoA",
+          id: "visa",
           desc: "Visa on Arrival untuk kunjungan pariwisata atau sosial.",
         },
 
         {
           name: "Visa C2",
+          id: "visa",
           desc: "Visa kunjungan untuk urusan bisnis, pertemuan, dan pembelian barang.",
         },
 
         {
           name: "Visa D2",
+          id: "visa",
           desc: "Visa tinggal terbatas untuk kebutuhan investasi dan kerja.",
         },
       ],
@@ -45,20 +44,22 @@ export default function LandingPage() {
 
     {
       category: "Residence Permits",
-
       items: [
         {
           name: "Working KITAS (E23)",
+          id: "kitas",
           desc: "Izin tinggal terbatas untuk tenaga kerja asing.",
         },
 
         {
           name: "Investment KITAS (E28A)",
+          id: "kitas",
           desc: "Izin tinggal bagi investor asing di Indonesia.",
         },
 
         {
           name: "Bridging Visa",
+          id: "kitas",
           desc: "Izin tinggal sementara saat menunggu keputusan visa baru.",
         },
       ],
@@ -69,18 +70,33 @@ export default function LandingPage() {
 
       items: [
         {
-          name: "Company Establishment (PT)",
+          name: "Company Establishment PT / CV",
+          id: "legal",
           desc: "Layanan pendirian perusahaan dan izin usaha lainnya.",
         },
 
         {
           name: "Naturalization",
+          id: "legal",
           desc: "Proses perubahan kewarganegaraan dari Warga Negara Asing menjadu Warga Negara Indonesia.",
         },
 
         {
           name: "Passport Management",
+          id: "legal",
           desc: "Pengurusan dan manajemen paspor bagi ekspatriat.",
+        },
+
+        {
+          name: "HKI",
+          id: "legal",
+          desc: "Pendirian hak Cipta Perusahaan.",
+        },
+
+        {
+          name: "Virtual Office",
+          id: "legal",
+          desc: "Layanan kantor virtual untuk bisnis internasional.",
         },
       ],
     },
@@ -184,8 +200,6 @@ export default function LandingPage() {
               viewport={{ once: true }}
               className="md:w-1/2 relative group"
             >
-              <div className="absolute -top-4 -left-4 w-72 h-72 bg-blue-600 rounded-2xl -z-10 opacity-10"></div>
-
               <div className="relative rounded-3xl overflow-hidden shadow-2xl h-125">
                 <Image
                   src="/Sabaody.jpg"
@@ -194,15 +208,22 @@ export default function LandingPage() {
                   className="object-cover transition-transform duration-700 group-hover:scale-110"
                 />
 
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  whileHover={{ opacity: 1 }}
-                  className="absolute inset-0 bg-blue-900/40 backdrop-blur-sm flex items-center justify-center transition-all"
-                >
-                  <p className="text-white font-bold border-2 border-white px-6 py-2 rounded-full uppercase tracking-widest">
-                    View Profile
-                  </p>
-                </motion.div>
+                {/* SEKARANG DIBUNGKUS DENGAN LINK */}
+                <Link href="/about">
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    whileHover={{ opacity: 1 }}
+                    className="absolute inset-0 bg-blue-900/40 backdrop-blur-sm flex items-center justify-center transition-all cursor-pointer"
+                  >
+                    <motion.p
+                      whileHover={{ scale: 1.1 }}
+                      whileTap={{ scale: 0.95 }}
+                      className="text-white font-bold border-2 border-white px-6 py-2 rounded-full uppercase tracking-widest"
+                    >
+                      View Profile
+                    </motion.p>
+                  </motion.div>
+                </Link>
               </div>
 
               {/* Floating Badge */}
@@ -224,9 +245,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* 3. OFFICE GALLERY (HORIZONTAL SCROLL) */}
-
-      {/* 4. VALUE PROPOSITION */}
+      {/* 3. VALUE PROPOSITION */}
 
       <section className="py-24 bg-slate-50">
         <div className="max-w-6xl mx-auto grid md:grid-cols-3 gap-8 px-6">
@@ -266,9 +285,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      
-
-      {/* 5. SERVICES ACCORDION/GRID */}
+      {/* 4. SERVICES ACCORDION/GRID */}
 
       <section className="py-24 bg-white">
         <div className="max-w-6xl mx-auto px-6">
@@ -303,10 +320,25 @@ export default function LandingPage() {
                 <ul className="space-y-6">
                   {service.items.map((item, i) => (
                     <li key={i} className="group">
-                      <h4 className="font-bold text-slate-800 group-hover:text-blue-600 transition-colors">
-                        {item.name}
-                      </h4>
-
+                      {/* DIBUNGKUS LINK KE HALAMAN SERVICES DENGAN ANCHOR ID */}
+                      <Link href={`/services#${item.id}`}>
+                        <h4 className="font-bold text-slate-800 group-hover:text-blue-600 transition-colors">
+                          {item.name}
+                          <svg
+                            className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-all -translate-x-2 group-hover:translate-x-0"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth="3"
+                              d="M14 5l7 7m0 0l-7 7m7-7H3"
+                            />
+                          </svg>
+                        </h4>
+                      </Link>
                       <p className="text-sm text-slate-500 mt-1">{item.desc}</p>
                     </li>
                   ))}
@@ -317,6 +349,7 @@ export default function LandingPage() {
         </div>
       </section>
 
+      {/* 5. OFFICE GALLERY (HORIZONTAL SCROLL) */}
       <OfficeGallery />
 
       {/* 6. MEET OUR TEAM */}

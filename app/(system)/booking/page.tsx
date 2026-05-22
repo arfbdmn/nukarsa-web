@@ -1,4 +1,6 @@
 "use client";
+
+// Gunakan @ untuk mewakili folder root, jadi mau pindah folder mana pun kodenya tidak rusak
 import { useState } from "react";
 import { createClient } from "@supabase/supabase-js";
 
