@@ -32,7 +32,6 @@ export default function RootLayout({
         className="min-h-full flex flex-col"
         suppressHydrationWarning={true}
       >
-        <Navbar /> {/* Navbar ditaruh di sini agar muncul di semua halaman */}
         <main className="grow">{children}</main>
       </body>
     </html>
