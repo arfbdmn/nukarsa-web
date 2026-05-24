@@ -4,8 +4,11 @@ import Image from "next/image";
 import OfficeGallery from "@/components/OfficeGallery";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import { useLanguage } from "@/components/LanguageContext";
 
 export default function LandingPage() {
+  const { t } = useLanguage();
+
   const teamMembers = [
     { name: "Gerry Affero Wibawa, S.H", role: "Director", image: "/Gerry.png" },
     { name: "Ervina Syahputri", role: "Project Director", image: "/Ervina.png" },
@@ -55,7 +58,7 @@ export default function LandingPage() {
             NUKARSA
           </h1>
           <p className="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto italic font-light px-4">
-            Serving You Every Step of Immigration
+            {t("hero_tagline")}
           </p>
         </motion.div>
         <div className="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none">
@@ -75,21 +78,19 @@ export default function LandingPage() {
               className="w-full md:w-1/2"
             >
               <h2 className="text-blue-600 font-bold tracking-widest uppercase text-sm mb-4">
-                About NUKARSA
+                {t("about_badge")}
               </h2>
               <h3 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6 leading-tight">
-                Trusted Partner for Expatriates and Businesses in Indonesia.
+                {t("about_heading")}
               </h3>
               <p className="text-slate-600 text-base md:text-lg mb-8 leading-relaxed">
-                Nukarsa adalah perusahaan jasa profesional yang bergerak di
-                bidang pengurusan keimigrasian, pendirian perusahaan (PT), serta
-                layanan hukum di Indonesia.
+                {t("about_p1")}
               </p>
 
               <div className="space-y-6">
                 {[
-                  { num: "01", title: "Integritas & Akurasi", desc: "Menjamin setiap proses sesuai dengan regulasi keimigrasian yang berlaku." },
-                  { num: "02", title: "Solusi Efisien", desc: "Memberikan solusi yang jelas dan andal untuk menyederhanakan prosedur kompleks." },
+                  { num: "01", title: t("about_val1_title"), desc: t("about_val1_desc") },
+                  { num: "02", title: t("about_val2_title"), desc: t("about_val2_desc") },
                 ].map((item, i) => (
                   <motion.div
                     key={i}
@@ -119,7 +120,7 @@ export default function LandingPage() {
               viewport={{ once: true }}
               className="w-full md:w-1/2 relative group px-2 md:px-0"
             >
-              <div className="relative rounded-3xl overflow-hidden shadow-2xl h-80 md:h-125 w-full">
+              <div className="relative rounded-3xl overflow-hidden shadow-2xl h-80 md:h-[30rem] w-full">
                 <Image
                   src="/Sabaody.jpg"
                   alt="Nukarsa Office"
@@ -138,13 +139,13 @@ export default function LandingPage() {
                       whileTap={{ scale: 0.95 }}
                       className="text-white font-bold border-2 border-white px-6 py-2 rounded-full uppercase tracking-widest text-sm"
                     >
-                      View Profile
+                      {t("about_btn_profile")}
                     </motion.p>
                   </motion.div>
                 </Link>
               </div>
 
-              {/* Floating Badge (Posisinya disesuaikan agar tidak melenceng di HP) */}
+              {/* Floating Badge */}
               <motion.div
                 initial={{ opacity: 0, x: 20 }}
                 whileInView={{ opacity: 1, x: 0 }}
@@ -153,7 +154,7 @@ export default function LandingPage() {
               >
                 <p className="text-2xl md:text-4xl font-bold text-blue-600 italic">2025</p>
                 <p className="text-[10px] md:text-xs text-slate-500 font-bold uppercase tracking-wider">
-                  Established
+                  {t("about_floating_badge")}
                 </p>
               </motion.div>
             </motion.div>
@@ -165,9 +166,9 @@ export default function LandingPage() {
       <section className="py-16 md:py-24 bg-slate-50">
         <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 px-6">
           {[
-            { icon: "⚡", title: "Pengerjaan Lebih Cepat", desc: "Solusi efisien untuk menyederhanakan prosedur kompleks." },
-            { icon: "💼", title: "Profesional", desc: "Berkomitmen pada integrasi, akurasi dan kerahasiaan." },
-            { icon: "💰", title: "Harga Bersaing", desc: "Solusi inovatif untuk keberhasilan usaha jangka panjang." },
+            { icon: "⚡", title: t("val_speed_title"), desc: t("val_speed_desc") },
+            { icon: "💼", title: t("val_prof_title"), desc: t("val_prof_desc") },
+            { icon: "💰", title: t("val_price_title"), desc: t("val_price_desc") },
           ].map((val, i) => (
             <motion.div
               key={i}
@@ -191,9 +192,9 @@ export default function LandingPage() {
             whileInView={{ opacity: 1, y: 0 }}
             className="text-center mb-12"
           >
-            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">Our Professional Services</h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">{t("services_heading")}</h2>
             <p className="text-slate-500 max-w-xl mx-auto text-sm md:text-base">
-              Solusi andal untuk memastikan kepatuhan hukum dan keberhasilan usaha Anda.
+              {t("services_desc")}
             </p>
           </motion.div>
 
@@ -237,7 +238,7 @@ export default function LandingPage() {
       {/* 6. MEET OUR TEAM */}
       <section className="py-16 md:py-24 bg-slate-900 text-white">
         <div className="max-w-6xl mx-auto px-6">
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 md:text-center">Meet Our Team</h2>
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">{t("team_heading")}</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
             {teamMembers.map((member, index) => (
               <motion.div
@@ -266,22 +267,18 @@ export default function LandingPage() {
       {/* 7. CONTACT & FOOTER */}
       <section className="py-16 md:py-24 bg-white">
         <div className="max-w-4xl mx-auto px-6 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-6">Contact Us</h2>
+          <h2 className="text-3xl md:text-4xl font-bold mb-6">{t("contact_heading")}</h2>
           <p className="text-slate-500 mb-12 text-sm md:text-lg max-w-2xl mx-auto leading-relaxed">
-            We would love to connect with you! Whether you have questions,
-            feedback, or simply want to learn more about our services, our team
-            is here to help. Reach out anytime, we are always ready to chat and
-            assist you
-
+            {t("contact_desc")}
           </p>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
-            <div className="p-6 md:p-8 bg-slate-50 rounded-3xl hover:bg-blue-50 transition-colors">
+            <div className="p-6 md:p-8 bg-slate-50 rounded-3xl hover:bg-blue-50 transition-all duration-300 cursor-pointer">
               <h4 className="font-bold text-blue-600 mb-2">Email</h4>
-              <p className="font-medium text-slate-900 text-sm md:text-base">nukarsa.co@gmail.com</p>
+              <p className="font-semibold text-slate-900 text-sm md:text-base">nukarsa.co@gmail.com</p>
             </div>
-            <div className="p-6 md:p-8 bg-slate-50 rounded-3xl hover:bg-blue-50 transition-colors">
+            <div className="p-6 md:p-8 bg-slate-50 rounded-3xl hover:bg-blue-50 transition-all duration-300 cursor-pointer">
               <h4 className="font-bold text-blue-600 mb-2">Contact Person</h4>
-              <p className="font-medium text-slate-900 text-sm md:text-base">0856-9998-331</p>
+              <p className="font-semibold text-slate-900 text-sm md:text-base">0856-9998-331</p>
             </div>
           </div>
         </div>
@@ -302,9 +299,9 @@ export default function LandingPage() {
           </div>
 
           <div className="space-y-4">
-            <h3 className="text-lg md:text-xl font-bold">Contact Info</h3>
-            <p className="text-slate-400 text-sm">Hubungi kami kapan saja, tim kami siap membantu Anda.</p>
-            <ul className="text-slate-300 space-y-2 text-sm">
+            <h3 className="text-lg md:text-xl font-bold">{t("contact_info_title")}</h3>
+            <p className="text-slate-400 text-sm">{t("contact_info_desc")}</p>
+            <ul className="text-slate-350 space-y-2 text-sm">
               <li>📧 nukarsa.co@gmail.com</li>
               <li>📞 CP: 0856-9998-331</li>
               <li>🔗 linkedin.com/company/nukarsa</li>
@@ -317,12 +314,13 @@ export default function LandingPage() {
         </div>
       </footer>
 
-      {/* Floating WhatsApp (Ukuran Disesuaikan & Responsif di HP) */}
+      {/* Floating WhatsApp */}
       <motion.a
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.9 }}
         href="https://wa.me/6289518024088"
         target="_blank"
+        rel="noopener noreferrer"
         className="fixed bottom-6 right-6 md:bottom-10 md:right-10 bg-green-500 text-white p-4 md:p-5 rounded-full shadow-2xl z-50 flex items-center group transition-all duration-300"
       >
         <span className="max-w-0 overflow-hidden group-hover:max-w-xs group-hover:ml-3 transition-all duration-500 whitespace-nowrap font-bold text-xs md:text-sm">

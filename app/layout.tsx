@@ -1,17 +1,6 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import Navbar from "@/components/Navbar"; // Impor Navbar kamu
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+import { LanguageProvider } from "@/components/LanguageContext";
 
 export const metadata: Metadata = {
   title: "NUKARSA - Immigration Service",
@@ -26,13 +15,15 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className="h-full antialiased"
     >
       <body
-        className="min-h-full flex flex-col"
+        className="min-h-full flex flex-col bg-white text-slate-800 font-sans"
         suppressHydrationWarning={true}
       >
-        <main className="grow">{children}</main>
+        <LanguageProvider>
+          <main className="grow flex flex-col">{children}</main>
+        </LanguageProvider>
       </body>
     </html>
   );
