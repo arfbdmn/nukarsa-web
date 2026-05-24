@@ -9,9 +9,11 @@ function BookingContent() {
   const router = useRouter();
   const token = searchParams.get("token");
 
-  const [tokenState, setTokenState] = useState<"loading" | "valid" | "invalid">("loading");
+  const [tokenState, setTokenState] = useState<"loading" | "valid" | "invalid">(
+    "loading",
+  );
   const [tokenData, setTokenData] = useState<any>(null);
-  
+
   const [formData, setFormData] = useState({
     full_name: "",
     passport_number: "",
@@ -136,7 +138,10 @@ function BookingContent() {
         .eq("id", token);
 
       if (tokenError) {
-        console.error("Warning: Failed to invalidate token:", tokenError.message);
+        console.error(
+          "Warning: Failed to invalidate token:",
+          tokenError.message,
+        );
       }
 
       setLoading(false);
@@ -154,8 +159,12 @@ function BookingContent() {
       <div className="min-h-screen bg-slate-900 flex items-center justify-center p-6 text-white">
         <div className="text-center">
           <div className="w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-6"></div>
-          <h2 className="text-xl font-bold tracking-wider">Verifying Link Security...</h2>
-          <p className="text-slate-400 text-sm mt-2">Connecting to Nukarsa Encryption Portal</p>
+          <h2 className="text-xl font-bold tracking-wider">
+            Verifying Link Security...
+          </h2>
+          <p className="text-slate-400 text-sm mt-2">
+            Connecting to Nukarsa Encryption Portal
+          </p>
         </div>
       </div>
     );
@@ -176,11 +185,14 @@ function BookingContent() {
             Access Link Expired or Invalid
           </h1>
           <p className="text-slate-400 mb-8 leading-relaxed text-sm">
-            Tautan pendaftaran ini tidak lagi aktif, sudah pernah digunakan, atau masa berlakunya telah habis. PT. Karsa Ruang Nusantara menerapkan prosedur token satu-kali untuk mengamankan data paspor sensitif Anda.
+            Tautan pendaftaran ini tidak lagi aktif, sudah pernah digunakan,
+            atau masa berlakunya telah habis. PT. Karsa Ruang Nusantara
+            menerapkan prosedur token satu-kali untuk mengamankan data paspor
+            sensitif Anda.
           </p>
           <div className="space-y-4">
             <a
-              href="https://wa.me/628569998331?text=Hi%20Nukarsa,%20my%20N-IMS%20registration%20link%20has%20expired.%20Please%20send%20me%20a%20new%20one."
+              href="https://wa.me/6289518024088?text=Hi%20Nukarsa,%20my%20N-IMS%20registration%20link%20has%20expired.%20Please%20send%20me%20a%20new%20one."
               target="_blank"
               rel="noopener noreferrer"
               className="block w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-xl shadow-lg transition-all duration-300 active:scale-95"
@@ -214,7 +226,10 @@ function BookingContent() {
             Register Application
           </h1>
           <p className="text-slate-400 text-xs mt-2 max-w-sm mx-auto leading-relaxed">
-            Welcome, <strong className="text-blue-400">{tokenData?.client_name}</strong>. Please upload your identity documents below. All data is highly encrypted.
+            Welcome,{" "}
+            <strong className="text-blue-400">{tokenData?.client_name}</strong>.
+            Please upload your identity documents below. All data is highly
+            encrypted.
           </p>
         </div>
 
@@ -297,11 +312,15 @@ function BookingContent() {
                 setFormData({ ...formData, visa_type: e.target.value })
               }
             >
-              <option value="Visa VoA">Visa VoA (Tourism / Business Short)</option>
+              <option value="Visa VoA">
+                Visa VoA (Tourism / Business Short)
+              </option>
               <option value="Visa C2">Visa C2 (Business / Meeting)</option>
               <option value="Visa D2">Visa D2 (Investor)</option>
               <option value="Working KITAS (E23)">Working KITAS (E23)</option>
-              <option value="Investment KITAS (E28A)">Investment KITAS (E28A)</option>
+              <option value="Investment KITAS (E28A)">
+                Investment KITAS (E28A)
+              </option>
               <option value="Bridging Visa">Bridging Visa</option>
             </select>
           </div>
@@ -318,7 +337,8 @@ function BookingContent() {
               onChange={(e) => setFile(e.target.files?.[0] || null)}
             />
             <p className="text-[10px] text-slate-500 mt-3 leading-relaxed">
-              Max file size is 10MB. Supports JPEG, PNG, or PDF formats. File is protected under state-of-the-art encryption algorithms.
+              Max file size is 10MB. Supports JPEG, PNG, or PDF formats. File is
+              protected under state-of-the-art encryption algorithms.
             </p>
           </div>
 
@@ -344,14 +364,18 @@ function BookingContent() {
 
 export default function BookingPage() {
   return (
-    <Suspense fallback={
-      <div className="min-h-screen bg-slate-900 flex items-center justify-center p-6 text-white">
-        <div className="text-center">
-          <div className="w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-6"></div>
-          <h2 className="text-xl font-bold tracking-wider">Loading Security Portal...</h2>
+    <Suspense
+      fallback={
+        <div className="min-h-screen bg-slate-900 flex items-center justify-center p-6 text-white">
+          <div className="text-center">
+            <div className="w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-6"></div>
+            <h2 className="text-xl font-bold tracking-wider">
+              Loading Security Portal...
+            </h2>
+          </div>
         </div>
-      </div>
-    }>
+      }
+    >
       <BookingContent />
     </Suspense>
   );
