@@ -61,10 +61,10 @@ export default function ServicesPage() {
                   <p className="text-slate-500 leading-relaxed">{section.description}</p>
                   <div className="h-1 w-20 bg-blue-600 mt-6 rounded-full"></div>
                 </FadeIn>
-                
+
                 <div className="md:w-2/3 grid gap-6">
                   {section.items.map((item, i) => (
-                    <FadeIn 
+                    <FadeIn
                       key={i}
                       delay={i * 0.1}
                       hoverScale={1.01}
@@ -94,8 +94,8 @@ export default function ServicesPage() {
               Tim kami selalu siap mendengarkan kebutuhan legalitas Anda. Hubungi kami untuk sesi konsultasi cepat.
             </p>
             <FadeIn isTapScale={true} className="inline-block">
-              <Link 
-                href="/booking" 
+              <Link
+                href="/booking"
                 className="inline-block bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 px-10 rounded-full shadow-lg transition-all duration-300"
               >
                 Daftar via N-IMS Sekarang

@@ -123,7 +123,7 @@ export default function AboutPage() {
         </h3>
         <FadeIn isTapScale={true} className="inline-block">
           <a
-            href="https://wa.me/628569998331?text=Hi%20Nukarsa,%20I%20want%20to%20consult%20about%20visa/legal%20services."
+            href="https://wa.me/6289518024088?text=Hi%20Nukarsa,%20I%20want%20to%20consult%20about%20visa/legal%20services."
             target="_blank"
             rel="noopener noreferrer"
             className="inline-block bg-blue-600 hover:bg-blue-700 text-white px-10 py-4 rounded-full font-bold shadow-lg shadow-blue-200 transition-all duration-300"

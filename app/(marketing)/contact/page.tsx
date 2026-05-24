@@ -17,9 +17,9 @@ export default function ContactPage() {
     },
     {
       title: "WhatsApp / Call",
-      value: "0856-9998-331",
+      value: "089518024088",
       icon: "💬",
-      link: "https://wa.me/628569998331?text=Hi%20Nukarsa,%20I%20want%20to%20consult%20about%20your%20services.",
+      link: "https://wa.me/6289518024088?text=Hi%20Nukarsa,%20I%20want%20to%20consult%20about%20your%20services.",
       color: "bg-green-50 text-green-600 hover:bg-green-100",
     },
     {
