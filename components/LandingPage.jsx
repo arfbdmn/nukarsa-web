@@ -1,10 +1,16 @@
 "use client";
 
+/**
+ * Main landing page component for the Nukarsa marketing site.
+ * Includes: Hero, About, Value Props, Services, Our Clients, Gallery, Team, Contact, and Footer sections.
+ */
+
 import Image from "next/image";
 import OfficeGallery from "@/components/OfficeGallery";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { useLanguage } from "@/components/LanguageContext";
+import { clients } from "@/lib/data/clients";
 
 export default function LandingPage() {
   const { t } = useLanguage();
@@ -19,27 +25,27 @@ export default function LandingPage() {
     {
       category: "Visa Services",
       items: [
-        { name: "Visa VoA", id: "visa", desc: "Visa on Arrival untuk kunjungan pariwisata atau sosial." },
-        { name: "Visa C2", id: "visa", desc: "Visa kunjungan untuk urusan bisnis, pertemuan, dan pembelian barang." },
-        { name: "Visa D2", id: "visa", desc: "Visa tinggal terbatas untuk kebutuhan investasi dan kerja." },
+        { name: "Visa VoA", id: "visa", desc: "Visa on Arrival for tourism or social visits." },
+        { name: "Visa C2", id: "visa", desc: "visa for business affairs, meetings, and purchasing goods.." },
+        { name: "Visa D2", id: "visa", desc: "Limited stay visa for investment and employment purposes.." },
       ],
     },
     {
       category: "Residence Permits",
       items: [
-        { name: "Working KITAS (E23)", id: "kitas", desc: "Izin tinggal terbatas untuk tenaga kerja asing." },
-        { name: "Investment KITAS (E28A)", id: "kitas", desc: "Izin tinggal bagi investor asing di Indonesia." },
-        { name: "Bridging Visa", id: "kitas", desc: "Izin tinggal sementara saat menunggu keputusan visa baru." },
+        { name: "Working KITAS (E23)", id: "kitas", desc: "Limited stay permit for foreign workers." },
+        { name: "Investment KITAS (E28A)", id: "kitas", desc: "Residence permit for foreign investors in Indonesia." },
+        { name: "Bridging Visa", id: "kitas", desc: "Temporary stay permit while waiting for a new visa decision." },
       ],
     },
     {
       category: "Corporate & Legal",
       items: [
-        { name: "Company Establishment PT / CV", id: "legal", desc: "Layanan pendirian perusahaan dan izin usaha lainnya." },
-        { name: "Naturalization", id: "legal", desc: "Proses perubahan kewarganegaraan dari Warga Negara Asing menjadi Warga Negara Indonesia." },
-        { name: "Passport Management", id: "legal", desc: "Pengurusan dan manajemen paspor bagi ekspatriat." },
-        { name: "HKI", id: "legal", desc: "Pendirian hak Cipta Perusahaan." },
-        { name: "Virtual Office", id: "legal", desc: "Layanan kantor virtual untuk bisnis internasional." },
+        { name: "Company Establishment PT / CV", id: "legal", desc: "Company establishment services and other business licenses." },
+        { name: "Naturalization", id: "legal", desc: "The process of changing citizenship from a foreign national to an Indonesian citizen." },
+        { name: "Passport Management", id: "legal", desc: "Passport handling and management services for expatriates." },
+        { name: "HKI", id: "legal", desc: "Corporate copyright and intellectual property registration services." },
+        { name: "Virtual Office", id: "legal", desc: "Virtual office services for international businesses." },
       ],
     },
   ];
@@ -54,11 +60,30 @@ export default function LandingPage() {
           transition={{ duration: 0.8 }}
           className="relative z-10"
         >
+          {/*
+            ── NUKARSA HERO LOGO ──────────────────────────────────────
+            File path  : public/brand/nukarsa-hero-logo.png  (or .svg)
+            Usage      : Large hero/brand identity mark, centered
+            Dimensions : width={240} height={64} — scale up for large hero sections
+            Variants   : Consider a transparent/white SVG for overlay on dark hero bg
+            To activate: Replace src="/placeholder-hero-logo.png" with real asset
+            ──────────────────────────────────────────────────────────── 
+          */}
+          <div className="flex justify-center mb-6">
+            <Image
+              src="/placeholder-hero-logo.png"
+              alt="Nukarsa"
+              width={240}
+              height={64}
+              priority
+              className="object-contain"
+            />
+          </div>
           <h1 className="text-5xl md:text-7xl font-black tracking-tighter mb-4">
             NUKARSA
           </h1>
           <p className="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto italic font-light px-4">
-            {t("hero_tagline")}
+            {t("hero.tagline")}
           </p>
         </motion.div>
         <div className="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none">
@@ -68,7 +93,7 @@ export default function LandingPage() {
 
       {/* 2. ABOUT US SECTION */}
       <section className="py-16 md:py-24 bg-white overflow-hidden">
-        <div className="max-w-6xl mx-auto px-6">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row items-center gap-12 md:gap-16">
             <motion.div
               initial={{ opacity: 0, x: -50 }}
@@ -78,19 +103,19 @@ export default function LandingPage() {
               className="w-full md:w-1/2"
             >
               <h2 className="text-blue-600 font-bold tracking-widest uppercase text-sm mb-4">
-                {t("about_badge")}
+                {t("about.badge")}
               </h2>
               <h3 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6 leading-tight">
-                {t("about_heading")}
+                {t("about.heading")}
               </h3>
               <p className="text-slate-600 text-base md:text-lg mb-8 leading-relaxed">
-                {t("about_p1")}
+                {t("about.p1")}
               </p>
 
               <div className="space-y-6">
                 {[
-                  { num: "01", title: t("about_val1_title"), desc: t("about_val1_desc") },
-                  { num: "02", title: t("about_val2_title"), desc: t("about_val2_desc") },
+                  { num: "01", title: t("about.val1_title"), desc: t("about.val1_desc") },
+                  { num: "02", title: t("about.val2_title"), desc: t("about.val2_desc") },
                 ].map((item, i) => (
                   <motion.div
                     key={i}
@@ -125,13 +150,14 @@ export default function LandingPage() {
                   src="/Sabaody.jpg"
                   alt="Nukarsa Office"
                   fill
+                  sizes="(max-width: 768px) 100vw, 50vw"
                   className="object-cover transition-transform duration-700 md:group-hover:scale-110"
                 />
                 <Link href="/about">
                   <motion.div
                     initial={{ opacity: 0 }}
                     whileHover={{ opacity: 1 }}
-                    whileTap={{ opacity: 1 }} // Dipaksa menyala saat di-tap di HP
+                    whileTap={{ opacity: 1 }}
                     className="absolute inset-0 bg-blue-900/40 backdrop-blur-sm flex items-center justify-center transition-all cursor-pointer"
                   >
                     <motion.p
@@ -139,7 +165,7 @@ export default function LandingPage() {
                       whileTap={{ scale: 0.95 }}
                       className="text-white font-bold border-2 border-white px-6 py-2 rounded-full uppercase tracking-widest text-sm"
                     >
-                      {t("about_btn_profile")}
+                      {t("about.btn_profile")}
                     </motion.p>
                   </motion.div>
                 </Link>
@@ -154,7 +180,7 @@ export default function LandingPage() {
               >
                 <p className="text-2xl md:text-4xl font-bold text-blue-600 italic">2025</p>
                 <p className="text-[10px] md:text-xs text-slate-500 font-bold uppercase tracking-wider">
-                  {t("about_floating_badge")}
+                  {t("about.floating_badge")}
                 </p>
               </motion.div>
             </motion.div>
@@ -164,11 +190,11 @@ export default function LandingPage() {
 
       {/* 3. VALUE PROPOSITION */}
       <section className="py-16 md:py-24 bg-slate-50">
-        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 px-6">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 px-4 sm:px-6 lg:px-8">
           {[
-            { icon: "⚡", title: t("val_speed_title"), desc: t("val_speed_desc") },
-            { icon: "💼", title: t("val_prof_title"), desc: t("val_prof_desc") },
-            { icon: "💰", title: t("val_price_title"), desc: t("val_price_desc") },
+            { icon: "⚡", title: t("values.speed_title"), desc: t("values.speed_desc") },
+            { icon: "💼", title: t("values.prof_title"), desc: t("values.prof_desc") },
+            { icon: "💰", title: t("values.price_title"), desc: t("values.price_desc") },
           ].map((val, i) => (
             <motion.div
               key={i}
@@ -186,15 +212,15 @@ export default function LandingPage() {
 
       {/* 4. SERVICES SECTION (SWIPEABLE DI HP, GRID DI LAPTOP) */}
       <section className="py-16 md:py-24 bg-white">
-        <div className="max-w-6xl mx-auto px-6">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             className="text-center mb-12"
           >
-            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">{t("services_heading")}</h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">{t("services.heading")}</h2>
             <p className="text-slate-500 max-w-xl mx-auto text-sm md:text-base">
-              {t("services_desc")}
+              {t("services.desc")}
             </p>
           </motion.div>
 
@@ -232,13 +258,119 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* 5. OFFICE GALLERY */}
+      {/* 5. OUR CLIENTS SECTION */}
+      <section className="py-16 md:py-24 bg-slate-900 overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mb-12"
+          >
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+              {t("clients.section_title")}
+            </h2>
+            <p className="text-slate-400 max-w-xl mx-auto text-sm md:text-base">
+              {t("clients.section_subtitle")}
+            </p>
+          </motion.div>
+
+          {/* Desktop: Auto-scrolling marquee */}
+          <div className="hidden md:block overflow-hidden">
+            <div className="animate-marquee flex gap-8 w-max">
+              {/* Duplicate the list to create seamless loop */}
+              {[...clients, ...clients].map((client, idx) => (
+                <div
+                  key={`${client.id}-${idx}`}
+                  className="group relative flex-shrink-0 bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 w-[200px] flex flex-col items-center justify-center gap-3 hover:bg-white/10 transition-all duration-300 cursor-pointer"
+                >
+                  {/*
+                    ── CLIENT LOGO ASSET ──────────────────────────────────────
+                    File path : public/clients/{client-name-slug}.svg
+                    Recommended: SVG format, white/transparent version for dark bg
+                    Dimensions : width={120} height={40} (adjust per actual aspect ratio)
+                    Swap src   : Replace the src prop below with the real asset path
+                    ────────────────────────────────────────────────────────── 
+                  */}
+                  <Image
+                    src={client.logo}
+                    alt={`${client.name} logo`}
+                    width={120}
+                    height={40}
+                    className="object-contain opacity-60 grayscale hover:opacity-100 hover:grayscale-0 transition-all duration-300"
+                  />
+
+                  {/* Tooltip (Tailwind-only) */}
+                  <div className="absolute -top-16 left-1/2 -translate-x-1/2 bg-slate-800 border border-slate-700 rounded-xl px-4 py-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none whitespace-nowrap z-20 shadow-xl">
+                    <p className="text-white font-bold text-sm">{client.name}</p>
+                    <p className="text-slate-400 text-xs">{client.industry}</p>
+                    <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 rotate-45 w-2.5 h-2.5 bg-slate-800 border-r border-b border-slate-700"></div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Mobile: Static 2-column grid */}
+          <div className="grid grid-cols-2 gap-4 md:hidden">
+            {clients.map((client) => (
+              <div
+                key={client.id}
+                className="group relative bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-4 flex flex-col items-center justify-center gap-3 cursor-pointer"
+              >
+                {/*
+                  ── CLIENT LOGO ASSET ──────────────────────────────────────
+                  File path : public/clients/{client-name-slug}.svg
+                  Recommended: SVG format, white/transparent version for dark bg
+                  Dimensions : width={120} height={40} (adjust per actual aspect ratio)
+                  Swap src   : Replace the src prop below with the real asset path
+                  ────────────────────────────────────────────────────────── 
+                */}
+                <Image
+                  src={client.logo}
+                  alt={`${client.name} logo`}
+                  width={120}
+                  height={40}
+                  className="object-contain opacity-60 grayscale hover:opacity-100 hover:grayscale-0 transition-all duration-300"
+                />
+
+                {/* Tooltip (Tailwind-only) */}
+                <div className="absolute -top-16 left-1/2 -translate-x-1/2 bg-slate-800 border border-slate-700 rounded-xl px-4 py-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none whitespace-nowrap z-20 shadow-xl">
+                  <p className="text-white font-bold text-sm">{client.name}</p>
+                  <p className="text-slate-400 text-xs">{client.industry}</p>
+                  <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 rotate-45 w-2.5 h-2.5 bg-slate-800 border-r border-b border-slate-700"></div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* View All Clients Link */}
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mt-10"
+          >
+            <Link
+              href="/clients"
+              className="inline-flex items-center gap-2 text-blue-400 hover:text-blue-300 font-bold text-sm transition-colors min-h-[44px]"
+            >
+              {t("clients.view_all")}
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+              </svg>
+            </Link>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* 6. OFFICE GALLERY */}
       <OfficeGallery />
 
-      {/* 6. MEET OUR TEAM */}
+      {/* 7. MEET OUR TEAM */}
       <section className="py-16 md:py-24 bg-slate-900 text-white">
-        <div className="max-w-6xl mx-auto px-6">
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">{t("team_heading")}</h2>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">{t("team.heading")}</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
             {teamMembers.map((member, index) => (
               <motion.div
@@ -253,6 +385,7 @@ export default function LandingPage() {
                     src={member.image}
                     alt={member.name}
                     fill
+                    sizes="(max-width: 768px) 176px, 224px"
                     className="object-cover md:group-hover:scale-110 transition-transform duration-700 md:grayscale md:group-hover:grayscale-0"
                   />
                 </div>
@@ -264,19 +397,19 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* 7. CONTACT & FOOTER */}
+      {/* 8. CONTACT & FOOTER */}
       <section className="py-16 md:py-24 bg-white">
-        <div className="max-w-4xl mx-auto px-6 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-6">{t("contact_heading")}</h2>
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-3xl md:text-4xl font-bold mb-6">{t("contact.heading")}</h2>
           <p className="text-slate-500 mb-12 text-sm md:text-lg max-w-2xl mx-auto leading-relaxed">
-            {t("contact_desc")}
+            {t("contact.desc")}
           </p>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
-            <div className="p-6 md:p-8 bg-slate-50 rounded-3xl hover:bg-blue-50 transition-all duration-300 cursor-pointer">
+            <div className="p-6 md:p-8 bg-slate-50 rounded-3xl hover:bg-blue-50 transition-all duration-300 cursor-pointer min-h-[44px]">
               <h4 className="font-bold text-blue-600 mb-2">Email</h4>
               <p className="font-semibold text-slate-900 text-sm md:text-base">nukarsa.co@gmail.com</p>
             </div>
-            <div className="p-6 md:p-8 bg-slate-50 rounded-3xl hover:bg-blue-50 transition-all duration-300 cursor-pointer">
+            <div className="p-6 md:p-8 bg-slate-50 rounded-3xl hover:bg-blue-50 transition-all duration-300 cursor-pointer min-h-[44px]">
               <h4 className="font-bold text-blue-600 mb-2">Contact Person</h4>
               <p className="font-semibold text-slate-900 text-sm md:text-base">0856-9998-331</p>
             </div>
@@ -285,11 +418,11 @@ export default function LandingPage() {
       </section>
 
       <footer className="bg-slate-900 text-white py-12 md:py-16">
-        <div className="max-w-6xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-12">
           <div>
             <h3 className="text-xl md:text-2xl font-bold mb-4">PT. KARSA RUANG NUSANTARA (NUKARSA)</h3>
             <p className="text-slate-400 mb-6 text-xs md:text-sm leading-relaxed">
-              Nukarsa adalah perusahaan jasa profesional yang bergerak di bidang pengurusan keimigrasian, pendirian perusahaan (PT), serta layanan hukum di Indonesia.
+              {t("footer.company_desc")}
             </p>
             <div className="space-y-2 text-[11px] md:text-xs text-slate-500">
               <p>Akte Pendirian: 16 Juli 2025 (Notaris Mohammad Fahroji, S.H, M.Kn)</p>
@@ -299,8 +432,8 @@ export default function LandingPage() {
           </div>
 
           <div className="space-y-4">
-            <h3 className="text-lg md:text-xl font-bold">{t("contact_info_title")}</h3>
-            <p className="text-slate-400 text-sm">{t("contact_info_desc")}</p>
+            <h3 className="text-lg md:text-xl font-bold">{t("contact.info_title")}</h3>
+            <p className="text-slate-400 text-sm">{t("contact.info_desc")}</p>
             <ul className="text-slate-350 space-y-2 text-sm">
               <li>📧 nukarsa.co@gmail.com</li>
               <li>📞 CP: 0856-9998-331</li>
@@ -310,7 +443,7 @@ export default function LandingPage() {
         </div>
 
         <div className="text-center mt-12 md:mt-20 pt-8 border-t border-slate-800 text-slate-600 text-xs md:text-sm">
-          © 2026 NUKARSA. Built with Passion for Sahaya Eka.
+          © 2026 NUKARSA. {t("footer.rights")}
         </div>
       </footer>
 
@@ -321,7 +454,7 @@ export default function LandingPage() {
         href="https://wa.me/6289518024088"
         target="_blank"
         rel="noopener noreferrer"
-        className="fixed bottom-6 right-6 md:bottom-10 md:right-10 bg-green-500 text-white p-4 md:p-5 rounded-full shadow-2xl z-50 flex items-center group transition-all duration-300"
+        className="fixed bottom-6 right-6 md:bottom-10 md:right-10 bg-green-500 text-white p-4 md:p-5 rounded-full shadow-2xl z-50 flex items-center group transition-all duration-300 min-h-[44px] min-w-[44px]"
       >
         <span className="max-w-0 overflow-hidden group-hover:max-w-xs group-hover:ml-3 transition-all duration-500 whitespace-nowrap font-bold text-xs md:text-sm">
           Chat Admin Nukarsa

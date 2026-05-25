@@ -1,49 +1,34 @@
 "use client";
+
+/**
+ * Office gallery section with horizontal scroll.
+ * Displays office/workspace images in a scrollable horizontal layout.
+ */
+
 import { motion } from "framer-motion";
+import { useLanguage } from "@/components/LanguageContext";
 
 const officeImages = [
-  {
-    id: 1,
-    url: "/Alabasta.jpg",
-    title: "Alabasta",
-  },
-  {
-    id: 2,
-    url: "/dressrosa.jpg",
-    title: "Dressrosa",
-  },
-  {
-    id: 3,
-    url: "/egghead.jpg",
-    title: "Egghead",
-  },
-  {
-    id: 4,
-    url: "/wanokuni.jpg",
-    title: "Wano Kuni",
-  },
-  {
-    id: 5,
-    url: "water7.jpg",
-    title: "Water Seven",
-  },
-  {
-    id: 6,
-    url: "zou.jpg",
-    title: "Zou Island",
-    },
+  { id: 1, url: "/Alabasta.jpg", title: "Alabasta" },
+  { id: 2, url: "/dressrosa.jpg", title: "Dressrosa" },
+  { id: 3, url: "/egghead.jpg", title: "Egghead" },
+  { id: 4, url: "/wanokuni.jpg", title: "Wano Kuni" },
+  { id: 5, url: "water7.jpg", title: "Water Seven" },
+  { id: 6, url: "zou.jpg", title: "Zou Island" },
 ];
 
 export default function OfficeGallery() {
+  const { t } = useLanguage();
+
   return (
     <section className="py-24 bg-[#f8fafc] overflow-hidden">
-      <div className="max-w-7xl mx-auto px-6 mb-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
         <motion.span
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           className="text-blue-600 font-semibold tracking-wider uppercase text-sm"
         >
-          Explore
+          {t("gallery.explore")}
         </motion.span>
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
@@ -51,7 +36,7 @@ export default function OfficeGallery() {
           transition={{ duration: 0.6 }}
           className="text-4xl md:text-5xl font-bold text-slate-900 mt-2"
         >
-          Our Space
+          {t("gallery.title")}
         </motion.h2>
       </div>
 
@@ -78,7 +63,7 @@ export default function OfficeGallery() {
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex items-end p-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                 <div>
                   <p className="text-white/70 text-sm mb-1 uppercase tracking-widest">
-                    Place
+                    {t("gallery.place")}
                   </p>
                   <h3 className="text-white text-2xl font-bold">
                     {image.title}

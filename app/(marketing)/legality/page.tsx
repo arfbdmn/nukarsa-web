@@ -6,6 +6,10 @@ export const metadata: Metadata = {
   description: "PT. Karsa Ruang Nusantara (NUKARSA) terdaftar resmi dan mematuhi regulasi hukum Republik Indonesia untuk keimigrasian dan perizinan bisnis.",
 };
 
+/**
+ * Legality page — Displays company legal documents and registration details.
+ * Server Component with static Indonesian text.
+ */
 export default function LegalityPage() {
   const legalityData = [
     {
@@ -29,14 +33,14 @@ export default function LegalityPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-slate-50 pt-32 pb-20 px-6">
+    <div className="min-h-screen bg-slate-50 pt-32 pb-20 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto">
         {/* Header Section */}
         <FadeIn y={-20} className="text-center mb-16">
           <h1 className="text-4xl font-bold text-slate-900 mb-4 tracking-tight">
             Legalitas Perusahaan
           </h1>
-          <p className="text-slate-500 max-w-2xl mx-auto text-lg leading-relaxed">
+          <p className="text-slate-500 max-w-2xl mx-auto text-base md:text-lg leading-relaxed">
             PT. Karsa Ruang Nusantara (NUKARSA) berkomitmen pada transparansi
             dan kepatuhan hukum penuh di Indonesia.
           </p>

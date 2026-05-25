@@ -1,12 +1,20 @@
 "use client";
 
+/**
+ * Admin dashboard page for the N-IMS Command Center.
+ * Features: application management, token generation, status updates, and audit logs.
+ * Uses i18n for bilingual support (EN/ID).
+ */
+
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/app/utils/supabase";
 import FadeIn from "@/components/FadeIn";
+import { useLanguage, LanguageToggle } from "@/components/LanguageContext";
 
 export default function AdminDashboardPage() {
   const router = useRouter();
+  const { t } = useLanguage();
   const [sessionChecked, setSessionChecked] = useState(false);
   const [user, setUser] = useState<any>(null);
 
@@ -261,7 +269,7 @@ export default function AdminDashboardPage() {
       <div className="min-h-screen bg-slate-950 flex items-center justify-center p-6 text-white">
         <div className="text-center">
           <div className="w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-6"></div>
-          <h2 className="text-xl font-bold tracking-wider">Securing Workspace Session...</h2>
+          <h2 className="text-xl font-bold tracking-wider">{t("admin.loading")}</h2>
         </div>
       </div>
     );
@@ -271,54 +279,55 @@ export default function AdminDashboardPage() {
     <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans">
       {/* Header Panel */}
       <header className="bg-slate-900 border-b border-slate-800 sticky top-0 z-40">
-        <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <span className="text-2xl">🛡️</span>
             <div>
-              <h1 className="text-xl font-black text-white tracking-tight">N-IMS Command Center</h1>
-              <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Karsa Ruang Nusantara</p>
+              <h1 className="text-xl font-black text-white tracking-tight">{t("admin.header_title")}</h1>
+              <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">{t("admin.header_subtitle")}</p>
             </div>
           </div>
 
           <div className="flex items-center gap-4">
-            <span className="text-xs bg-slate-800 px-3 py-1.5 rounded-full border border-slate-700 font-semibold text-slate-300">
+            <LanguageToggle />
+            <span className="text-xs bg-slate-800 px-3 py-1.5 rounded-full border border-slate-700 font-semibold text-slate-300 hidden sm:inline-block">
               Admin: {user?.email}
             </span>
             <button
               onClick={handleSignOut}
-              className="bg-red-500/10 hover:bg-red-500/20 text-red-400 px-4 py-2 rounded-xl text-xs font-bold border border-red-500/20 transition-all cursor-pointer"
+              className="bg-red-500/10 hover:bg-red-500/20 text-red-400 px-4 py-2 rounded-xl text-xs font-bold border border-red-500/20 transition-all cursor-pointer min-h-[44px]"
             >
-              Sign Out
+              {t("admin.sign_out")}
             </button>
           </div>
         </div>
       </header>
 
-      <div className="grow max-w-7xl w-full mx-auto px-6 py-10 flex flex-col lg:flex-row gap-8">
+      <div className="grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-10 flex flex-col lg:flex-row gap-8">
         
         {/* Left Sidebar Panel / Dashboard metrics */}
         <aside className="lg:w-1/4 flex flex-col gap-6">
           <div className="bg-slate-900/50 border border-slate-800 rounded-3xl p-6 flex flex-col gap-4">
-            <h3 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Metrics Summary</h3>
+            <h3 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">{t("admin.metrics_title")}</h3>
             
             <div className="grid grid-cols-2 lg:grid-cols-1 gap-4">
               <div className="bg-slate-950 p-4 rounded-2xl border border-slate-800">
-                <p className="text-[10px] text-slate-500 font-bold uppercase">Total inquiries</p>
+                <p className="text-[10px] text-slate-500 font-bold uppercase">{t("admin.total")}</p>
                 <p className="text-3xl font-black text-blue-500 mt-1">{stats.total}</p>
               </div>
 
               <div className="bg-slate-950 p-4 rounded-2xl border border-slate-800">
-                <p className="text-[10px] text-slate-500 font-bold uppercase">Pending Check</p>
+                <p className="text-[10px] text-slate-500 font-bold uppercase">{t("admin.pending")}</p>
                 <p className="text-3xl font-black text-yellow-500 mt-1">{stats.pending}</p>
               </div>
 
               <div className="bg-slate-950 p-4 rounded-2xl border border-slate-800">
-                <p className="text-[10px] text-slate-500 font-bold uppercase">In Progress</p>
+                <p className="text-[10px] text-slate-500 font-bold uppercase">{t("admin.in_progress")}</p>
                 <p className="text-3xl font-black text-indigo-500 mt-1">{stats.inProgress}</p>
               </div>
 
               <div className="bg-slate-950 p-4 rounded-2xl border border-slate-800">
-                <p className="text-[10px] text-slate-500 font-bold uppercase">Completed</p>
+                <p className="text-[10px] text-slate-500 font-bold uppercase">{t("admin.completed")}</p>
                 <p className="text-3xl font-black text-emerald-500 mt-1">{stats.completed}</p>
               </div>
             </div>
@@ -328,23 +337,23 @@ export default function AdminDashboardPage() {
           <div className="bg-slate-900/50 border border-slate-800 rounded-3xl p-4 flex flex-col gap-2">
             <button
               onClick={() => setActiveTab("applications")}
-              className={`w-full text-left px-4 py-3 rounded-xl font-bold text-sm transition-all flex items-center gap-3 cursor-pointer ${
+              className={`w-full text-left px-4 py-3 rounded-xl font-bold text-sm transition-all flex items-center gap-3 cursor-pointer min-h-[44px] ${
                 activeTab === "applications"
                   ? "bg-blue-600 text-white shadow-lg shadow-blue-900/10"
                   : "hover:bg-slate-800 text-slate-400 hover:text-slate-200"
               }`}
             >
-              📄 Applicant Inquiries
+              📄 {t("admin.tab_applications")}
             </button>
             <button
               onClick={() => setActiveTab("generator")}
-              className={`w-full text-left px-4 py-3 rounded-xl font-bold text-sm transition-all flex items-center gap-3 cursor-pointer ${
+              className={`w-full text-left px-4 py-3 rounded-xl font-bold text-sm transition-all flex items-center gap-3 cursor-pointer min-h-[44px] ${
                 activeTab === "generator"
                   ? "bg-blue-600 text-white shadow-lg shadow-blue-900/10"
                   : "hover:bg-slate-800 text-slate-400 hover:text-slate-200"
               }`}
             >
-              🔑 Single-Use Token Issuer
+              🔑 {t("admin.tab_generator")}
             </button>
           </div>
         </aside>
@@ -361,22 +370,22 @@ export default function AdminDashboardPage() {
                 <div className="w-full md:w-1/2 relative">
                   <input
                     type="text"
-                    placeholder="Search by name, passport, or country..."
+                    placeholder={t("admin.search_placeholder")}
                     value={searchQuery}
-                    className="w-full pl-10 pr-4 py-3 bg-slate-950 border border-slate-800 rounded-xl text-slate-100 placeholder:text-slate-650 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition-all font-medium text-sm"
+                    className="w-full pl-10 pr-4 py-3 bg-slate-950 border border-slate-800 rounded-xl text-slate-100 placeholder:text-slate-650 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition-all font-medium text-sm min-h-[44px]"
                     onChange={(e) => setSearchQuery(e.target.value)}
                   />
                   <span className="absolute left-3.5 top-3.5 text-slate-600 text-sm">🔍</span>
                 </div>
 
                 <div className="w-full md:w-auto flex items-center gap-2 self-stretch md:self-auto">
-                  <span className="text-xs font-bold uppercase tracking-widest text-slate-500 mr-2 shrink-0">Filter Status:</span>
+                  <span className="text-xs font-bold uppercase tracking-widest text-slate-500 mr-2 shrink-0">{t("admin.filter_label")}</span>
                   <select
                     value={statusFilter}
-                    className="grow md:grow-0 bg-slate-950 border border-slate-800 px-4 py-3 rounded-xl text-sm font-semibold outline-none focus:border-blue-500 cursor-pointer"
+                    className="grow md:grow-0 bg-slate-950 border border-slate-800 px-4 py-3 rounded-xl text-sm font-semibold outline-none focus:border-blue-500 cursor-pointer min-h-[44px]"
                     onChange={(e) => setStatusFilter(e.target.value)}
                   >
-                    <option value="All">All Inquiries</option>
+                    <option value="All">{t("admin.filter_all")}</option>
                     <option value="Pending">Pending</option>
                     <option value="Verified">Verified</option>
                     <option value="In Progress">In Progress</option>
@@ -392,11 +401,11 @@ export default function AdminDashboardPage() {
                   <table className="w-full text-left border-collapse">
                     <thead>
                       <tr className="border-b border-slate-800 bg-slate-900/80 text-[10px] text-slate-400 font-extrabold uppercase tracking-wider">
-                        <th className="p-5">Applicant Name</th>
-                        <th className="p-5">Country</th>
-                        <th className="p-5">Visa Requested</th>
-                        <th className="p-5">Status</th>
-                        <th className="p-5 text-right">Actions</th>
+                        <th className="p-5">{t("admin.th_name")}</th>
+                        <th className="p-5">{t("admin.th_country")}</th>
+                        <th className="p-5">{t("admin.th_visa")}</th>
+                        <th className="p-5">{t("admin.th_status")}</th>
+                        <th className="p-5 text-right">{t("admin.th_actions")}</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -404,13 +413,13 @@ export default function AdminDashboardPage() {
                         <tr>
                           <td colSpan={5} className="p-20 text-center text-slate-500 font-medium">
                             <div className="w-8 h-8 border-2 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-                            Loading database contents...
+                            {t("admin.loading_db")}
                           </td>
                         </tr>
                       ) : filteredApps.length === 0 ? (
                         <tr>
                           <td colSpan={5} className="p-20 text-center text-slate-500 font-bold text-sm">
-                            🚫 No applications found matching your criteria.
+                            🚫 {t("admin.no_apps")}
                           </td>
                         </tr>
                       ) : (
@@ -450,9 +459,9 @@ export default function AdminDashboardPage() {
                             <td className="p-5 text-right">
                               <button
                                 onClick={() => handleSelectApp(app)}
-                                className="bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold px-4 py-2 rounded-xl transition-all cursor-pointer shadow-lg active:scale-95"
+                                className="bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold px-4 py-2 rounded-xl transition-all cursor-pointer shadow-lg active:scale-95 min-h-[44px]"
                               >
-                                Manage / Logs
+                                {t("admin.btn_manage")}
                               </button>
                             </td>
                           </tr>
@@ -467,80 +476,80 @@ export default function AdminDashboardPage() {
 
           {/* TAB 2: INVITATION TOKEN ISSUER */}
           {activeTab === "generator" && (
-            <FadeIn delay={0.05} className="grid md:grid-cols-2 gap-8">
+            <FadeIn delay={0.05} className="grid grid-cols-1 md:grid-cols-2 gap-8">
               
               {/* Generator Form */}
               <div className="bg-slate-900/50 border border-slate-800 p-8 rounded-3xl flex flex-col gap-6 h-fit">
                 <div>
-                  <h2 className="text-xl font-bold text-white tracking-tight">🔑 Generate Invitation Token</h2>
+                  <h2 className="text-xl font-bold text-white tracking-tight">🔑 {t("admin.gen_title")}</h2>
                   <p className="text-xs text-slate-400 mt-1 leading-relaxed">
-                    Create secure, single-use booking registration links. The client does not need to register an account; instead, they will upload files using this invitation token.
+                    {t("admin.gen_desc")}
                   </p>
                 </div>
 
                 <form onSubmit={handleGenerateToken} className="space-y-5">
                   <div>
                     <label className="block text-xs font-bold uppercase tracking-widest text-slate-400 mb-2">
-                      Client Full Name
+                      {t("admin.gen_name_label")}
                     </label>
                     <input
                       type="text"
-                      placeholder="e.g. John Doe"
+                      placeholder={t("admin.gen_name_placeholder")}
                       value={clientName}
                       required
-                      className="w-full p-4 bg-slate-950 border border-slate-800 rounded-xl text-slate-100 placeholder:text-slate-700 focus:border-blue-500 outline-none transition-all font-semibold"
+                      className="w-full p-4 bg-slate-950 border border-slate-800 rounded-xl text-slate-100 placeholder:text-slate-700 focus:border-blue-500 outline-none transition-all font-semibold min-h-[44px]"
                       onChange={(e) => setClientName(e.target.value)}
                     />
                   </div>
 
                   <div>
                     <label className="block text-xs font-bold uppercase tracking-widest text-slate-400 mb-2">
-                      Client Email (Optional)
+                      {t("admin.gen_email_label")}
                     </label>
                     <input
                       type="email"
-                      placeholder="e.g. john@example.com"
+                      placeholder={t("admin.gen_email_placeholder")}
                       value={clientEmail}
-                      className="w-full p-4 bg-slate-950 border border-slate-800 rounded-xl text-slate-100 placeholder:text-slate-700 focus:border-blue-500 outline-none transition-all font-semibold"
+                      className="w-full p-4 bg-slate-950 border border-slate-800 rounded-xl text-slate-100 placeholder:text-slate-700 focus:border-blue-500 outline-none transition-all font-semibold min-h-[44px]"
                       onChange={(e) => setClientEmail(e.target.value)}
                     />
                   </div>
 
                   <div>
                     <label className="block text-xs font-bold uppercase tracking-widest text-slate-400 mb-2">
-                      Link Validity duration
+                      {t("admin.gen_validity_label")}
                     </label>
                     <select
                       value={expiryDays}
-                      className="w-full p-4 bg-slate-950 border border-slate-800 rounded-xl text-slate-100 focus:border-blue-500 outline-none transition-all font-semibold bg-no-repeat cursor-pointer"
+                      className="w-full p-4 bg-slate-950 border border-slate-800 rounded-xl text-slate-100 focus:border-blue-500 outline-none transition-all font-semibold bg-no-repeat cursor-pointer min-h-[44px]"
                       onChange={(e) => setExpiryDays(e.target.value)}
                     >
-                      <option value="1">24 Hours (Fast-track)</option>
-                      <option value="3">3 Days</option>
-                      <option value="7">7 Days (Standard)</option>
-                      <option value="30">30 Days</option>
+                      <option value="1">{t("admin.gen_opt_24h")}</option>
+                      <option value="3">{t("admin.gen_opt_3d")}</option>
+                      <option value="7">{t("admin.gen_opt_7d")}</option>
+                      <option value="30">{t("admin.gen_opt_30d")}</option>
                     </select>
                   </div>
 
                   <button
                     type="submit"
                     disabled={generatingToken}
-                    className="w-full bg-blue-600 hover:bg-blue-700 text-white p-4 rounded-xl font-bold text-sm transition-all duration-300 shadow-lg active:scale-95 disabled:bg-slate-800 flex items-center justify-center gap-2 cursor-pointer mt-4"
+                    className="w-full bg-blue-600 hover:bg-blue-700 text-white p-4 rounded-xl font-bold text-sm transition-all duration-300 shadow-lg active:scale-95 disabled:bg-slate-800 flex items-center justify-center gap-2 cursor-pointer mt-4 min-h-[44px]"
                   >
                     {generatingToken ? (
                       <>
                         <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                        Generating Secure Credentials...
+                        {t("admin.gen_generating")}
                       </>
                     ) : (
-                      "Generate Single-Use Link"
+                      t("admin.gen_btn")
                     )}
                   </button>
                 </form>
 
                 {generatedLink && (
                   <div className="mt-4 p-5 bg-blue-500/10 border border-blue-500/20 rounded-xl flex flex-col gap-3">
-                    <p className="text-xs font-bold text-blue-400 uppercase tracking-widest">Invitation Link Ready:</p>
+                    <p className="text-xs font-bold text-blue-400 uppercase tracking-widest">{t("admin.gen_ready")}</p>
                     <input
                       type="text"
                       readOnly
@@ -552,9 +561,9 @@ export default function AdminDashboardPage() {
                         navigator.clipboard.writeText(generatedLink);
                         alert("Success: Secure invitation link copied to clipboard!");
                       }}
-                      className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2.5 rounded-lg text-xs transition-all cursor-pointer shadow active:scale-95"
+                      className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2.5 rounded-lg text-xs transition-all cursor-pointer shadow active:scale-95 min-h-[44px]"
                     >
-                      Copy Link to Clipboard
+                      {t("admin.gen_copy")}
                     </button>
                   </div>
                 )}
@@ -563,13 +572,13 @@ export default function AdminDashboardPage() {
               {/* Tokens list */}
               <div className="bg-slate-900/50 border border-slate-800 p-8 rounded-3xl flex flex-col gap-4 overflow-hidden">
                 <div>
-                  <h2 className="text-xl font-bold text-white tracking-tight">Active Issued Links</h2>
-                  <p className="text-xs text-slate-400 mt-1">Audit logs of single-use invitation tokens created.</p>
+                  <h2 className="text-xl font-bold text-white tracking-tight">{t("admin.tokens_title")}</h2>
+                  <p className="text-xs text-slate-400 mt-1">{t("admin.tokens_desc")}</p>
                 </div>
 
                 <div className="grow overflow-y-auto max-h-[460px] space-y-4 pr-1">
                   {tokens.length === 0 ? (
-                    <p className="text-slate-500 text-xs py-10 text-center font-semibold">No tokens generated yet.</p>
+                    <p className="text-slate-500 text-xs py-10 text-center font-semibold">{t("admin.tokens_empty")}</p>
                   ) : (
                     tokens.map((tokenItem) => (
                       <div
@@ -596,7 +605,7 @@ export default function AdminDashboardPage() {
                           <p className="text-xs text-slate-500">{tokenItem.client_email}</p>
                         )}
                         <div className="flex items-center justify-between text-[10px] text-slate-650 border-t border-slate-900 pt-2 mt-1">
-                          <p>Expires: {new Date(tokenItem.expires_at).toLocaleDateString()}</p>
+                          <p>{t("admin.tokens_expires")} {new Date(tokenItem.expires_at).toLocaleDateString()}</p>
                           <button
                             onClick={() => {
                               const inviteUrl = `${window.location.origin}/booking?token=${tokenItem.id}`;
@@ -606,7 +615,7 @@ export default function AdminDashboardPage() {
                             disabled={tokenItem.status !== "active" || new Date(tokenItem.expires_at) < new Date()}
                             className="text-blue-500 hover:text-blue-400 font-bold disabled:text-slate-700 cursor-pointer"
                           >
-                            Copy Link
+                            {t("admin.tokens_copy")}
                           </button>
                         </div>
                       </div>
@@ -630,12 +639,12 @@ export default function AdminDashboardPage() {
               <div>
                 <h3 className="text-xl font-bold text-white tracking-tight">{selectedApp.full_name}</h3>
                 <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider mt-1">
-                  Applicant ID: #{selectedApp.id} | Country: {selectedApp.country || "N/A"}
+                  {t("admin.modal_applicant_id")} #{selectedApp.id} | {t("admin.modal_country")} {selectedApp.country || "N/A"}
                 </p>
               </div>
               <button
                 onClick={() => setSelectedApp(null)}
-                className="text-slate-400 hover:text-white text-2xl font-semibold cursor-pointer shrink-0"
+                className="text-slate-400 hover:text-white text-2xl font-semibold cursor-pointer shrink-0 min-h-[44px] min-w-[44px] flex items-center justify-center"
               >
                 ✕
               </button>
@@ -647,40 +656,40 @@ export default function AdminDashboardPage() {
               {/* Left Column: Data info & doc download */}
               <div className="md:w-1/2 flex flex-col gap-6">
                 <div>
-                  <h4 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3">Application Details</h4>
+                  <h4 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3">{t("admin.modal_details")}</h4>
                   
                   <div className="space-y-4">
                     <div className="bg-slate-950 p-4 rounded-xl border border-slate-850">
-                      <p className="text-[9px] text-slate-500 font-bold uppercase">National Identity Card</p>
-                      <p className="text-sm font-semibold text-slate-200 mt-1">{selectedApp.identity_card || "Not Specified"}</p>
+                      <p className="text-[9px] text-slate-500 font-bold uppercase">{t("admin.modal_identity")}</p>
+                      <p className="text-sm font-semibold text-slate-200 mt-1">{selectedApp.identity_card || t("admin.modal_not_specified")}</p>
                     </div>
 
                     <div className="bg-slate-950 p-4 rounded-xl border border-slate-850">
-                      <p className="text-[9px] text-slate-500 font-bold uppercase">Passport Number</p>
+                      <p className="text-[9px] text-slate-500 font-bold uppercase">{t("admin.modal_passport")}</p>
                       <p className="text-sm font-semibold text-slate-200 mt-1">{selectedApp.passport_number}</p>
                     </div>
 
                     <div className="bg-slate-950 p-4 rounded-xl border border-slate-850">
-                      <p className="text-[9px] text-slate-500 font-bold uppercase">Visa Request Type</p>
+                      <p className="text-[9px] text-slate-500 font-bold uppercase">{t("admin.modal_visa")}</p>
                       <p className="text-sm font-semibold text-slate-200 mt-1">{selectedApp.visa_type}</p>
                     </div>
                   </div>
                 </div>
 
                 <div>
-                  <h4 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3">Identity Document File</h4>
+                  <h4 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3">{t("admin.modal_doc_title")}</h4>
                   {selectedApp.documents?.[0]?.file_url ? (
                     <a
                       href={selectedApp.documents[0].file_url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="block w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-xl text-center text-sm shadow-md transition-all active:scale-[0.98] cursor-pointer"
+                      className="block w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-xl text-center text-sm shadow-md transition-all active:scale-[0.98] cursor-pointer min-h-[44px]"
                     >
-                      📄 View & Download Passport
+                      📄 {t("admin.modal_doc_download")}
                     </a>
                   ) : (
                     <div className="p-4 bg-slate-950 border border-slate-850 rounded-xl text-center text-slate-500 text-xs font-medium">
-                      No document files uploaded.
+                      {t("admin.modal_doc_empty")}
                     </div>
                   )}
                 </div>
@@ -691,12 +700,12 @@ export default function AdminDashboardPage() {
                 
                 {/* Status Switcher form */}
                 <div className="bg-slate-950 p-5 rounded-2xl border border-slate-850 flex flex-col gap-4">
-                  <h4 className="text-xs font-bold text-slate-400 uppercase tracking-widest">Update Visa Status</h4>
+                  <h4 className="text-xs font-bold text-slate-400 uppercase tracking-widest">{t("admin.modal_status_title")}</h4>
                   
                   <div className="flex gap-2">
                     <select
                       value={newStatus}
-                      className="grow bg-slate-900 border border-slate-800 px-3 py-2 rounded-xl text-sm font-semibold outline-none focus:border-blue-500 cursor-pointer"
+                      className="grow bg-slate-900 border border-slate-800 px-3 py-2 rounded-xl text-sm font-semibold outline-none focus:border-blue-500 cursor-pointer min-h-[44px]"
                       onChange={(e) => setNewStatus(e.target.value)}
                     >
                       <option value="Pending">Pending</option>
@@ -709,10 +718,10 @@ export default function AdminDashboardPage() {
 
                   <div>
                     <label className="block text-[9px] font-bold uppercase tracking-widest text-slate-500 mb-1.5">
-                      Administrative Action Notes
+                      {t("admin.modal_notes_label")}
                     </label>
                     <textarea
-                      placeholder="Enter status changes context..."
+                      placeholder={t("admin.modal_notes_placeholder")}
                       rows={2}
                       value={adminNotes}
                       className="w-full p-3 bg-slate-900 border border-slate-800 rounded-lg text-slate-200 text-xs placeholder:text-slate-600 focus:border-blue-500 outline-none transition-all resize-none font-medium"
@@ -723,18 +732,18 @@ export default function AdminDashboardPage() {
                   <button
                     onClick={handleUpdateStatus}
                     disabled={updatingStatus}
-                    className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2.5 rounded-xl text-xs transition-all shadow cursor-pointer disabled:bg-slate-800"
+                    className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2.5 rounded-xl text-xs transition-all shadow cursor-pointer disabled:bg-slate-800 min-h-[44px]"
                   >
-                    {updatingStatus ? "Processing Database Change..." : "Commit Status Change"}
+                    {updatingStatus ? t("admin.modal_processing") : t("admin.modal_commit")}
                   </button>
                 </div>
 
                 {/* Audit history list */}
                 <div className="flex flex-col gap-3 grow max-h-[220px]">
-                  <h4 className="text-xs font-bold text-slate-400 uppercase tracking-widest">Activity Audit Trail</h4>
+                  <h4 className="text-xs font-bold text-slate-400 uppercase tracking-widest">{t("admin.modal_audit_title")}</h4>
                   <div className="grow overflow-y-auto space-y-3 pr-1">
                     {statusLogs.length === 0 ? (
-                      <p className="text-slate-600 text-[10px] text-center font-semibold py-6">No action updates recorded.</p>
+                      <p className="text-slate-600 text-[10px] text-center font-semibold py-6">{t("admin.modal_audit_empty")}</p>
                     ) : (
                       statusLogs.map((log) => (
                         <div key={log.id} className="bg-slate-950 p-3 rounded-xl border border-slate-850 flex flex-col gap-1 text-[11px]">
@@ -747,7 +756,7 @@ export default function AdminDashboardPage() {
                             </span>
                           </div>
                           <p className="text-slate-400 mt-1 leading-relaxed font-medium">
-                            {log.notes || "No additional commentary."}
+                            {log.notes || t("admin.modal_no_notes")}
                           </p>
                         </div>
                       ))

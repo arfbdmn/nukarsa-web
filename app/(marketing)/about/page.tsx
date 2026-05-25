@@ -7,6 +7,10 @@ export const metadata: Metadata = {
   description: "Nukarsa adalah perusahaan jasa profesional pengurusan keimigrasian, pendirian PT/PMA, dan manajemen hukum WNA terpercaya di Indonesia.",
 };
 
+/**
+ * About page — Company profile for PT. Karsa Ruang Nusantara (NUKARSA).
+ * Server Component with static Indonesian text.
+ */
 export default function AboutPage() {
   const values = [
     {
@@ -30,11 +34,11 @@ export default function AboutPage() {
     <div className="min-h-screen bg-white pt-20">
       {/* Header Section */}
       <section className="bg-slate-900 py-24 text-white text-center relative overflow-hidden">
-        <FadeIn delay={0.1} y={20} className="relative z-10 px-6">
-          <h1 className="text-5xl font-bold mb-4 tracking-tight">
+        <FadeIn delay={0.1} y={20} className="relative z-10 px-4 sm:px-6 lg:px-8">
+          <h1 className="text-4xl md:text-5xl font-bold mb-4 tracking-tight">
             Profil Perusahaan
           </h1>
-          <p className="text-slate-400 max-w-2xl mx-auto text-lg italic">
+          <p className="text-slate-400 max-w-2xl mx-auto text-base md:text-lg italic">
             Menjadi mitra terpercaya dalam menjaga status hukum ekspatriat dan
             bisnis mereka di Indonesia.
           </p>
@@ -43,17 +47,17 @@ export default function AboutPage() {
       </section>
 
       {/* Main Content */}
-      <section className="py-24 px-6 max-w-6xl mx-auto">
+      <section className="py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
         <div className="flex flex-col md:flex-row gap-16 items-center">
           {/* Text Content */}
           <FadeIn delay={0.2} x={-30} className="w-full md:w-1/2">
             <h2 className="text-blue-600 font-bold uppercase tracking-widest text-sm mb-4">
-              Who We Are
+              Tentang Kami
             </h2>
-            <h3 className="text-4xl font-bold text-slate-900 mb-6 leading-tight">
+            <h3 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6 leading-tight">
               PT. Karsa Ruang Nusantara (NUKARSA)
             </h3>
-            <div className="space-y-6 text-slate-600 text-lg leading-relaxed">
+            <div className="space-y-6 text-slate-600 text-base md:text-lg leading-relaxed">
               <p>
                 Nukarsa adalah perusahaan jasa profesional yang mengkhususkan
                 diri dalam penyediaan layanan imigrasi dan manajemen dokumentasi
@@ -76,6 +80,7 @@ export default function AboutPage() {
                 alt="Tentang Nukarsa"
                 fill
                 priority
+                sizes="(max-width: 768px) 100vw, 50vw"
                 className="object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 to-transparent"></div>
@@ -85,14 +90,14 @@ export default function AboutPage() {
       </section>
 
       {/* Core Values Section */}
-      <section className="py-24 bg-slate-50 px-6">
-        <div className="max-w-6xl mx-auto">
+      <section className="py-24 bg-slate-50 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-3xl font-bold text-slate-900">Komitmen Kami</h2>
             <div className="w-20 h-1 bg-blue-600 mx-auto mt-4"></div>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {values.map((val, i) => (
               <FadeIn
                 key={i}
@@ -116,7 +121,7 @@ export default function AboutPage() {
       </section>
 
       {/* Closing CTA */}
-      <section className="py-24 text-center px-6">
+      <section className="py-24 text-center px-4 sm:px-6 lg:px-8">
         <h3 className="text-2xl font-bold text-slate-800 mb-8 max-w-2xl mx-auto leading-relaxed">
           Memberikan ketenangan pikiran untuk fokus pada pertumbuhan bisnis
           Anda.
@@ -126,7 +131,7 @@ export default function AboutPage() {
             href="https://wa.me/6289518024088?text=Hi%20Nukarsa,%20I%20want%20to%20consult%20about%20visa/legal%20services."
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-block bg-blue-600 hover:bg-blue-700 text-white px-10 py-4 rounded-full font-bold shadow-lg shadow-blue-200 transition-all duration-300"
+            className="inline-block bg-blue-600 hover:bg-blue-700 text-white px-10 py-4 rounded-full font-bold shadow-lg shadow-blue-200 transition-all duration-300 min-h-[44px]"
           >
             Hubungi Kami Sekarang
           </a>

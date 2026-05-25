@@ -7,11 +7,15 @@ export const metadata: Metadata = {
   description: "Layanan keimigrasian profesional terlengkap di Indonesia: Visa VoA/C2/D2, Stay Permits (KITAS/KITAP), pendirian PT/PMA, dan naturalisasi WNA.",
 };
 
+/**
+ * Services page — Lists all professional immigration and legal services.
+ * Server Component with static Indonesian text.
+ */
 export default function ServicesPage() {
   const services = [
     {
       id: "visa",
-      title: "Visa Services",
+      title: "Layanan Visa",
       description: "Solusi lengkap untuk izin masuk dan tinggal di Indonesia.",
       items: [
         { name: "Visa VoA (Arrival)", detail: "Izin kunjungan singkat untuk wisata atau pertemuan bisnis non-komersial." },
@@ -21,17 +25,17 @@ export default function ServicesPage() {
     },
     {
       id: "kitas",
-      title: "Stay Permits (KITAS/KITAP)",
+      title: "Izin Tinggal (KITAS/KITAP)",
       description: "Izin tinggal terbatas maupun tetap untuk kenyamanan jangka panjang.",
       items: [
-        { name: "KITAS E34 (Working)", detail: "Izin tinggal bagi tenaga kerja asing profesional." },
-        { name: "Family KITAS", detail: "Izin tinggal untuk penyatuan keluarga (istri/suami/anak)." },
+        { name: "KITAS E34 (Kerja)", detail: "Izin tinggal bagi tenaga kerja asing profesional." },
+        { name: "KITAS Keluarga", detail: "Izin tinggal untuk penyatuan keluarga (istri/suami/anak)." },
         { name: "KITAP", detail: "Izin Tinggal Tetap bagi WNA yang memenuhi syarat durasi tinggal tertentu." }
       ]
     },
     {
       id: "legal",
-      title: "Corporate & Naturalization",
+      title: "Korporat & Naturalisasi",
       description: "Layanan legalitas perusahaan dan status kewarganegaraan.",
       items: [
         { name: "Pendirian PT/PMA", detail: "Bantuan legalitas untuk mendirikan badan usaha di Indonesia." },
@@ -41,19 +45,19 @@ export default function ServicesPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-white pt-32 pb-20 px-6">
-      <div className="max-w-6xl mx-auto">
+    <div className="min-h-screen bg-white pt-32 pb-20 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto">
         <header className="text-center mb-20">
           <FadeIn delay={0.1} y={20}>
-            <h1 className="text-5xl font-black text-slate-900 mb-6">Our Expert Services</h1>
-            <p className="text-slate-500 text-lg max-w-2xl mx-auto leading-relaxed">
+            <h1 className="text-4xl md:text-5xl font-black text-slate-900 mb-6">Layanan Profesional Kami</h1>
+            <p className="text-slate-500 text-base md:text-lg max-w-2xl mx-auto leading-relaxed">
               Memberikan kepastian hukum dan kemudahan prosedur bagi ekspatriat dan bisnis internasional di Indonesia.
             </p>
           </FadeIn>
         </header>
 
         <div className="space-y-32">
-          {services.map((section, idx) => (
+          {services.map((section) => (
             <section key={section.id} id={section.id} className="scroll-mt-32">
               <div className="flex flex-col md:flex-row gap-12">
                 <FadeIn delay={0.2} x={-20} className="md:w-1/3">
@@ -96,7 +100,7 @@ export default function ServicesPage() {
             <FadeIn isTapScale={true} className="inline-block">
               <Link
                 href="/booking"
-                className="inline-block bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 px-10 rounded-full shadow-lg transition-all duration-300"
+                className="inline-block bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 px-10 rounded-full shadow-lg transition-all duration-300 min-h-[44px]"
               >
                 Daftar via N-IMS Sekarang
               </Link>
