@@ -71,17 +71,15 @@ export default function LandingPage() {
           */}
           <div className="flex justify-center mb-6">
             <Image
-              src="/placeholder-hero-logo.png"
+              src="/brand/LNUKARSA.png"
               alt="Nukarsa"
-              width={240}
-              height={64}
+              width={500}
+              height={300}
               priority
               className="object-contain"
             />
           </div>
-          <h1 className="text-5xl md:text-7xl font-black tracking-tighter mb-4">
-            NUKARSA
-          </h1>
+
           <p className="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto italic font-light px-4">
             {t("hero.tagline")}
           </p>

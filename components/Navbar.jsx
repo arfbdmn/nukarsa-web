@@ -33,7 +33,7 @@ export default function Navbar() {
           */}
           <Link href="/" className="flex items-center">
             <Image
-              src="/placeholder-logo.png"
+              src="/brand/LNUKARSA.png"
               alt="Nukarsa Logo"
               width={150}
               height={40}
@@ -47,7 +47,7 @@ export default function Navbar() {
             <Link href="/" className="text-sm font-semibold text-slate-100 hover:text-blue-500 transition-colors min-h-[44px] flex items-center">
               {t("nav.home")}
             </Link>
-            
+
             {/* Dropdown Company */}
             <div className="relative group">
               <button className="text-sm font-semibold text-slate-100 group-hover:text-blue-500 flex items-center gap-1 transition-colors min-h-[44px]">
@@ -56,7 +56,7 @@ export default function Navbar() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
                 </svg>
               </button>
-              
+
               <div className="absolute top-full -left-4 pt-4 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 w-56">
                 <div className="bg-slate-900 rounded-2xl shadow-xl border border-slate-800 p-2 overflow-hidden">
                   <Link href="/about" className="block px-4 py-3 text-sm text-slate-305 hover:bg-blue-600 hover:text-white rounded-xl transition-colors">
@@ -83,8 +83,8 @@ export default function Navbar() {
           </div>
 
           {/* Hamburger Button (Hanya muncul di HP: md:hidden) */}
-          <button 
-            onClick={() => setIsOpen(!isOpen)} 
+          <button
+            onClick={() => setIsOpen(!isOpen)}
             className="md:hidden text-white focus:outline-none z-[110] min-h-[44px] min-w-[44px] flex items-center justify-center"
           >
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -101,7 +101,7 @@ export default function Navbar() {
       {/* Mobile Menu Panel (Slide-down effect) */}
       <AnimatePresence>
         {isOpen && (
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
@@ -119,7 +119,7 @@ export default function Navbar() {
             <Link onClick={() => setIsOpen(false)} href="/contact" className="bg-blue-600 text-white py-4 rounded-xl text-center font-bold shadow-lg mt-4 min-h-[44px] flex items-center justify-center">
               {t("nav.contact")}
             </Link>
-            
+
             <div className="mt-8 flex justify-center">
               <LanguageToggle />
             </div>
