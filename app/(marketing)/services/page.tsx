@@ -99,7 +99,7 @@ export default function ServicesPage() {
             </p>
             <FadeIn isTapScale={true} className="inline-block">
               <Link
-                href="/booking"
+                href="/request"
                 className="inline-block bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 px-10 rounded-full shadow-lg transition-all duration-300 min-h-[44px]"
               >
                 Daftar via N-IMS Sekarang

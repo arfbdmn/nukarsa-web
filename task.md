@@ -1,41 +1,29 @@
-# N-IMS Web Platform Execution Checklist
+# N-IMS Full Feature Expansion Checklist
 
-- [x] **Phase 1: Initializing Workspace & Dependencies**
-  - [x] Copy core skeleton files from `..\nukarsa-web` to active workspace `web-nukarsa`
-  - [x] Run `npm install` to load all packages (React 19, Framer Motion, Tailwind 4, Supabase)
-  - [x] Create `supabase_schema.sql` file in the root for easy user database setups
+- [x] **Phase 1: DB & Translations Setup**
+  - [x] Verify database tables (`public.quotations`, `public.token_requests`, `public.sla_config`, `public.notification_logs`) exist in the schema
+  - [x] Add comprehensive new translations to `lib/i18n/translations.ts` for English & Indonesian
 
-- [ ] **Phase 2: Database Setup & Configuration**
-  - [ ] Confirm `applications` table includes new fields: `country` and `identity_card`
-  - [ ] Test Supabase DB connection using local scripts or validation
-  - [ ] Make sure storage bucket and RLS policies match updated fields
+- [x] **Phase 2: Self-Service Token Request (`/request` page)**
+  - [x] Create beautiful, glassmorphic UI page `app/(system)/request/page.tsx`
+  - [x] Support form data inputs (full_name, email, phone, visa_type, message)
+  - [x] Add submission logic to save into `token_requests` table and handle success/error states
 
-- [x] **Phase 3: Marketing Pages Refactoring (SEO & Emojis)**
-  - [x] Refactor pages in `(marketing)` to Next.js Server Components (SSR-first)
-  - [x] Fix icon/emoji encoding corruptions in `about/page.tsx`, `legality/page.tsx`, `contact/page.tsx`, `thanks/page.tsx`
-  - [x] Ensure proper `<Image>` optimization and metadata titles
+- [x] **Phase 3: Client Status Tracker (`/status` page)**
+  - [x] Create gorgeous public tracking page `app/(system)/status/page.tsx`
+  - [x] Implement search by Booking Token UUID
+  - [x] Fetch and display application status, SLA processing details, invoices (Quotations), uploaded docs, and full updates log
 
-- [x] **Phase 4: Token-Based Booking Flow & Forms**
-  - [x] Implement query token validation on `/booking?token=UUID`
-  - [x] Build "Access Denied / Invalid Token" error states
-  - [x] Update booking form inputs to include **Country** and **Identity Card**
-  - [x] Complete secure submit action (save application, upload passport, mark token as used)
-  - [x] Adjust thanks page to include pre-filled WhatsApp click-to-chat links
+- [x] **Phase 4: Admin Dashboard Tabs (Quotations & Token Requests)**
+  - [x] Add tab UI navigation at `app/admin/page.tsx` for "Quotations" and "Requests"
+  - [x] Implement "Token Requests" tab with Approve (auto-generate booking token) and Reject (with reason notes)
+  - [x] Implement "Quotations" tab to create, read, and update invoices for client applications
+  - [x] Automatically log system notifications to `notification_logs` when updating status or approving/rejecting requests
+  - [x] Display SLA info dynamically in forms and modals
 
-- [x] **Phase 5: Realtime Admin Command Center**
-  - [x] Build secure Admin Login at `/admin/login`
-  - [x] Implement session checking and protection on `/admin/dashboard`
-  - [x] Construct beautiful glassmorphic Command Center layout with live metrics
-  - [x] Set up Supabase Realtime subscription to animate new inquiries in instantly
-  - [x] Build the Admin Token Generator utility (name, email, duration inputs)
-  - [x] Integrate status change controls and audit log insertions into `status_updates`
+- [x] **Phase 5: Academic Documentation Creation**
+  - [x] Generate comprehensive Indonesian academic documents in `docs/dokumentasi_akademik_kp.md` (ERD, LRS, Database Schema, UML Use Case, Activity, Sequence diagrams, Wireframes, UI/UX philosophy)
 
-- [x] **Phase 6: CMS & i18n Dictionary**
-  - [x] Design lightweight English (EN) and Indonesian (ID) language dictionary toggle
-  - [x] Configure dynamic copy-fetching from `cms_content` or local dictionaries
-  - [x] Add basic CMS editing capabilities in the admin dashboard settings tab
-
-- [x] **Phase 7: Final Verification & Walkthrough**
-  - [x] Build and compile the Next.js bundle locally (`npm run build`)
-  - [x] Run comprehensive manual UX verification flows
-  - [x] Document changes in `walkthrough.md` with final screenshots
+- [x] **Phase 6: Verification & Compilation**
+  - [x] Test end-to-end user flows (request token -> admin approve -> book visa -> issue quotation -> track status)
+  - [x] Run `npm run build` to confirm zero compilation errors

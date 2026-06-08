@@ -20,8 +20,10 @@ function BookingContent() {
     country: "",
     identity_card: "",
     visa_type: "Visa VoA",
+    no_telephone: "",
+    email: "",
   });
-  const [file, setFile] = useState<File | null>(null);
+  const [files, setFiles] = useState<File[]>([]);
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -49,6 +51,7 @@ function BookingContent() {
           setFormData((prev) => ({
             ...prev,
             full_name: data.client_name || "",
+            email: data.client_email || "",
           }));
           setTokenState("valid");
         }
@@ -63,25 +66,41 @@ function BookingContent() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!file) return alert("Please upload your passport scan!");
+    if (files.length === 0) return alert("Please upload at least one passport scan or identity document!");
     setLoading(true);
     setErrorMessage("");
 
     try {
-      // 1. Upload File ke Storage
-      const fileName = `${Date.now()}-${file.name.replace(/[^a-zA-Z0-9.-]/g, "_")}`;
-      const { data: storageData, error: storageError } = await supabase.storage
-        .from("nukarsa-files")
-        .upload(fileName, file);
+      // 1. Upload Files ke Storage
+      const uploadedDocs: { file_url: string; doc_type: string }[] = [];
 
-      if (storageError) {
-        throw new Error("File upload failed: " + storageError.message);
+      for (let i = 0; i < files.length; i++) {
+        const fileItem = files[i];
+        const fileName = `${Date.now()}-${i}-${fileItem.name.replace(/[^a-zA-Z0-9.-]/g, "_")}`;
+        const { data: storageData, error: storageError } = await supabase.storage
+          .from("nukarsa-files")
+          .upload(fileName, fileItem);
+
+        if (storageError) {
+          throw new Error(`File upload failed for "${fileItem.name}": ` + storageError.message);
+        }
+
+        // 2. Ambil URL file publik
+        const {
+          data: { publicUrl },
+        } = supabase.storage.from("nukarsa-files").getPublicUrl(fileName);
+
+        // Tentukan tipe berkas secara dinamis
+        let docType = "Passport";
+        if (files.length > 1) {
+          docType = `Document ${i + 1} (${fileItem.name.split(".").pop()?.toUpperCase() || "FILE"})`;
+        }
+
+        uploadedDocs.push({
+          file_url: publicUrl,
+          doc_type: docType,
+        });
       }
-
-      // 2. Ambil URL file publik
-      const {
-        data: { publicUrl },
-      } = supabase.storage.from("nukarsa-files").getPublicUrl(fileName);
 
       // 3. Insert ke tabel Applications
       const { data: appData, error: appError } = await supabase
@@ -93,6 +112,8 @@ function BookingContent() {
             visa_type: formData.visa_type,
             country: formData.country,
             identity_card: formData.identity_card,
+            no_telephone: formData.no_telephone,
+            email: formData.email,
             booking_token_id: token,
             status: "Pending",
           },
@@ -105,14 +126,14 @@ function BookingContent() {
 
       const applicationId = appData[0].id;
 
-      // 4. Simpan ke tabel Documents
-      const { error: docError } = await supabase.from("documents").insert([
-        {
-          application_id: applicationId,
-          file_url: publicUrl,
-          doc_type: "Passport",
-        },
-      ]);
+      // 4. Simpan ke tabel Documents (multiple inserts)
+      const docInserts = uploadedDocs.map((doc) => ({
+        application_id: applicationId,
+        file_url: doc.file_url,
+        doc_type: doc.doc_type,
+      }));
+
+      const { error: docError } = await supabase.from("documents").insert(docInserts);
 
       if (docError) {
         throw new Error("Document link creation failed: " + docError.message);
@@ -123,9 +144,33 @@ function BookingContent() {
         {
           application_id: applicationId,
           status: "Pending",
-          notes: "Application submitted securely by client.",
+          notes: `Application with ${files.length} document(s) submitted securely by client.`,
         },
       ]);
+
+      /* COMMENTED OUT FOR PAYMENT SYSTEM DEFERRAL
+      // 5.5 Automatically generate a default invoice/quotation based on selected visa type
+      let defaultCost = 1500000;
+      if (formData.visa_type === "Visa C2") defaultCost = 4500000;
+      else if (formData.visa_type === "Visa D2") defaultCost = 12000000;
+      else if (formData.visa_type === "Working KITAS (E23)") defaultCost = 18500000;
+      else if (formData.visa_type === "Investment KITAS (E28A)") defaultCost = 22000000;
+      else if (formData.visa_type === "Bridging Visa") defaultCost = 3000500;
+
+      const due = new Date();
+      due.setDate(due.getDate() + 14); // 14 days payment term by default
+
+      await supabase.from("quotations").insert([
+        {
+          application_id: applicationId,
+          amount: defaultCost,
+          currency: "IDR",
+          status: "Sent", // Instantly publish invoice to client tracker
+          notes: `Automated Invoice generated by N-IMS System for ${formData.visa_type}. Please proceed with payment transfer to PT. Karsa Ruang Nusantara account.`,
+          due_date: due.toISOString(),
+        }
+      ]);
+      */
 
       // 6. Nonaktifkan Token (Claim Token)
       const { error: tokenError } = await supabase
@@ -145,8 +190,8 @@ function BookingContent() {
       }
 
       setLoading(false);
-      // Redirect ke thanks page
-      router.push(`/thanks?name=${encodeURIComponent(formData.full_name)}`);
+      // Redirect ke thanks page dengan token UUID
+      router.push(`/thanks?name=${encodeURIComponent(formData.full_name)}&token=${encodeURIComponent(token || "")}`);
     } catch (err: any) {
       console.error(err);
       setErrorMessage(err.message || "An unexpected error occurred.");
@@ -289,6 +334,37 @@ function BookingContent() {
 
           <div>
             <label className="block text-xs font-bold uppercase tracking-widest text-slate-400 mb-2">
+              Telephone Number (WhatsApp)
+            </label>
+            <input
+              type="tel"
+              placeholder="e.g. +6289518024088"
+              required
+              className="w-full p-4 bg-slate-950 border border-slate-800 rounded-xl text-slate-100 placeholder:text-slate-600 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition-all duration-300 font-semibold"
+              onChange={(e) =>
+                setFormData({ ...formData, no_telephone: e.target.value })
+              }
+            />
+          </div>
+
+          <div>
+            <label className="block text-xs font-bold uppercase tracking-widest text-slate-400 mb-2">
+              Email Address
+            </label>
+            <input
+              type="email"
+              placeholder="e.g. client@example.com"
+              required
+              className="w-full p-4 bg-slate-950 border border-slate-800 rounded-xl text-slate-100 placeholder:text-slate-600 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition-all duration-300 font-semibold"
+              value={formData.email}
+              onChange={(e) =>
+                setFormData({ ...formData, email: e.target.value })
+              }
+            />
+          </div>
+
+          <div>
+            <label className="block text-xs font-bold uppercase tracking-widest text-slate-400 mb-2">
               Passport Number
             </label>
             <input
@@ -327,19 +403,49 @@ function BookingContent() {
 
           <div className="border border-dashed border-slate-800 hover:border-blue-500 p-6 rounded-xl bg-slate-950/50 transition-all duration-300">
             <label className="block text-xs font-bold uppercase tracking-widest text-slate-400 mb-3">
-              Upload Passport Scan (PDF or Image)
+              Upload Identity Documents & Passport Scan (Multiple Allowed)
             </label>
             <input
               type="file"
-              required
+              multiple
               accept="image/*,application/pdf"
               className="text-slate-400 text-sm file:mr-4 file:py-2 file:px-5 file:rounded-full file:border-0 file:text-xs file:font-black file:bg-blue-600 file:text-white hover:file:bg-blue-700 transition-all file:cursor-pointer cursor-pointer w-full"
-              onChange={(e) => setFile(e.target.files?.[0] || null)}
+              onChange={(e) => {
+                if (e.target.files) {
+                  const fileList = Array.from(e.target.files);
+                  setFiles((prev) => [...prev, ...fileList]);
+                }
+              }}
             />
             <p className="text-[10px] text-slate-500 mt-3 leading-relaxed">
-              Max file size is 10MB. Supports JPEG, PNG, or PDF formats. File is
+              Max file size is 10MB per file. Supports JPEG, PNG, or PDF formats. Files are
               protected under state-of-the-art encryption algorithms.
             </p>
+
+            {/* List of selected files */}
+            {files.length > 0 && (
+              <div className="mt-4 space-y-2">
+                <p className="text-[10px] font-bold uppercase tracking-widest text-slate-450">
+                  Selected Files ({files.length}):
+                </p>
+                <div className="max-h-36 overflow-y-auto space-y-1.5 pr-2">
+                  {files.map((f, idx) => (
+                    <div key={idx} className="flex items-center justify-between bg-slate-900/60 border border-slate-850 px-3 py-2 rounded-lg text-xs">
+                      <span className="truncate max-w-[70%] font-medium text-slate-300">
+                        📄 {f.name} <span className="text-[10px] text-slate-500">({(f.size / (1024 * 1024)).toFixed(2)} MB)</span>
+                      </span>
+                      <button
+                        type="button"
+                        onClick={() => setFiles((prev) => prev.filter((_, i) => i !== idx))}
+                        className="text-red-400 hover:text-red-300 font-bold cursor-pointer text-[10px] uppercase tracking-wider transition-colors"
+                      >
+                        Remove
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
 
           <button
