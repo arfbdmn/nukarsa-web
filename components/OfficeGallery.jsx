@@ -9,12 +9,11 @@ import { motion } from "framer-motion";
 import { useLanguage } from "@/components/LanguageContext";
 
 const officeImages = [
-  { id: 1, url: "/Alabasta.jpg", title: "Alabasta" },
-  { id: 2, url: "/dressrosa.jpg", title: "Dressrosa" },
-  { id: 3, url: "/egghead.jpg", title: "Egghead" },
-  { id: 4, url: "/wanokuni.jpg", title: "Wano Kuni" },
-  { id: 5, url: "water7.jpg", title: "Water Seven" },
-  { id: 6, url: "zou.jpg", title: "Zou Island" },
+  { id: 1, url: "/kantor.jpg", title: "" },
+  { id: 2, url: "/kantor2.jpg", title: "" },
+  { id: 3, url: "/kantor3.jpg", title: "" },
+  { id: 4, url: "/passport.jpg", title: "" },
+  { id: 5, url: "/passport2.jpg", title: "" },
 ];
 
 export default function OfficeGallery() {

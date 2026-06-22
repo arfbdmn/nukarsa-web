@@ -11,6 +11,7 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import { useLanguage } from "@/components/LanguageContext";
 import { clients } from "@/lib/data/clients";
+import FadeIn from "@/components/FadeIn";
 
 export default function LandingPage() {
   const { t } = useLanguage();
@@ -145,7 +146,7 @@ export default function LandingPage() {
             >
               <div className="relative rounded-3xl overflow-hidden shadow-2xl h-80 md:h-[30rem] w-full">
                 <Image
-                  src="/Sabaody.jpg"
+                  src="/gedungA.jpg"
                   alt="Nukarsa Office"
                   fill
                   sizes="(max-width: 768px) 100vw, 50vw"
@@ -255,6 +256,25 @@ export default function LandingPage() {
           </div>
         </div>
       </section>
+
+      {/* Call to Action */}
+      <FadeIn delay={0.4} className="mt-32 bg-slate-900  p-12 text-center text-white relative overflow-hidden">
+        <div className="relative z-10">
+          <h2 className="text-3xl font-bold mb-6">Butuh Konsultasi Khusus?</h2>
+          <p className="text-slate-400 mb-8 max-w-xl mx-auto leading-relaxed">
+            Tim kami selalu siap mendengarkan kebutuhan legalitas Anda. Hubungi kami untuk sesi konsultasi cepat.
+          </p>
+          <FadeIn isTapScale={true} className="inline-block">
+            <Link
+              href="/request"
+              className="inline-block bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 px-10 rounded-full shadow-lg transition-all duration-300 min-h-[44px]"
+            >
+              Daftar via N-IMS Sekarang
+            </Link>
+          </FadeIn>
+        </div>
+        <div className="absolute top-0 right-0 w-80 h-80 bg-blue-500/10 rounded-full blur-3xl pointer-events-none"></div>
+      </FadeIn>
 
       {/* 5. OUR CLIENTS SECTION */}
       <section className="py-16 md:py-24 bg-slate-900 overflow-hidden">

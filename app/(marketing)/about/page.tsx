@@ -76,7 +76,7 @@ export default function AboutPage() {
           <FadeIn delay={0.3} scale={0.9} className="w-full md:w-1/2 relative">
             <div className="aspect-[4/5] relative rounded-3xl overflow-hidden shadow-2xl">
               <Image
-                src="/Sabaody.jpg"
+                src="/gedungA.jpg"
                 alt="Tentang Nukarsa"
                 fill
                 priority
